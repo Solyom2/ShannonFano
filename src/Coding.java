@@ -94,7 +94,6 @@ public class Coding {
         int charactersInInterval = 0;
         for(double i = intervalStart, intervalNo = 0; i < intervalEnd && intervalNo < codeabc.length; i += intervalLength, intervalNo++) {
             charactersInInterval = 0;
-            System.out.println("Start: " + i + " End: " + intervalEnd + " Intervallength: " + intervalLength);
             int auxChar = 0;
 
             for(int j = 0; j < characters.size(); j++) {
@@ -102,27 +101,20 @@ public class Coding {
                 if(characters.get(j).getXvalue() >= i && characters.get(j).getXvalue() < i + intervalLength) {
                     charactersInInterval++;
                     characters.get(j).setCodeword(characters.get(j).getCodeword() + codeabc[(int)intervalNo]);
-                    System.out.println(characters.get(j).getCharacter() + " " + characters.get(j).getCodeword());
                 }
                 else if(characters.get(j).getXvalue() < i || characters.get(j).getXvalue() >= i + intervalLength || j == characters.size() - 1) {
                     if(charactersInInterval > 1) {
                         double newIntervalLength = intervalLength/codeabc.length;
-                        System.out.println("Vizsgált: " + characters.get(j));
-                        //System.out.println(" In interval: " + charactersInInterval);
-                        System.out.println(characters);
-                        System.out.println("Rekurzió!");
                         charactersInInterval = calculateCodewords(characters, codeabc, i, i+ intervalLength, newIntervalLength);
                         break;
                     }
                     else if (charactersInInterval == 1) {
-                        System.out.println("Vissza rekurzióból");
                         break;
                     }
                 }
             }
             if(charactersInInterval > 1 && auxChar == characters.size() - 1) {
                 double newIntervalLength = intervalLength/codeabc.length;
-                System.out.println(characters);
                 calculateCodewords(characters, codeabc, i, i+ intervalLength, newIntervalLength);
             }
         }
