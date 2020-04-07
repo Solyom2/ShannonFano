@@ -68,6 +68,20 @@ public class Coding {
             System.out.println(c);
         }
 
+        double enthropy = 0;
+        double avgCodewordLength = 0;
+        double effiency = 0;
+        for(CodeCharacter cc : characters) {
+            enthropy += -1 * cc.getFrequency() *(log2(cc.getFrequency()));
+            avgCodewordLength += cc.getFrequency() * cc.getCodeword().length();
+        }
+        effiency = enthropy/(avgCodewordLength * log2(codeabc.length));
+
+        System.out.println("Enthropy: " + enthropy);
+        System.out.println("Average codeword legth: " + avgCodewordLength);
+        System.out.println("Encoding effiency: " + effiency);
+
+
         sc = new Scanner(file);
         FileWriter writer = new FileWriter("encoded.txt");
         while (sc.hasNextLine()) {
@@ -88,8 +102,6 @@ public class Coding {
 
     }
 
-    //ha a szöveg pl: ips és a kódABC: 0,1 akkor az eredmény i:000 és p:011 és s:1
-    //Update: most már elvileg jó
     public static int calculateCodewords(ArrayList<CodeCharacter> characters, String[] codeabc, double intervalStart, double intervalEnd, double intervalLength) {
         int charactersInInterval = 0;
         for(double i = intervalStart, intervalNo = 0; i < intervalEnd && intervalNo < codeabc.length; i += intervalLength, intervalNo++) {
@@ -119,6 +131,10 @@ public class Coding {
             }
         }
         return charactersInInterval;
+    }
+
+    public static double log2(double x) {
+        return (Math.log(x) / Math.log(2) + 1e-10);
     }
 
 }
